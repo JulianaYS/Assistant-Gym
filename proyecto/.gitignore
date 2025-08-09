@@ -1,3 +1,28 @@
+# Ignore Python virtual environments
+venv/
+gym-assistant-env/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore environment and IDE settings
+.env
+*.env
+.vscode/
+.idea/
+
+# Ignore data files (optional, remove if you want to keep PDF in repo)
+# data/*.pdf
 # Ignorar entornos virtuales
 venv/
 gym-assistant-env/
