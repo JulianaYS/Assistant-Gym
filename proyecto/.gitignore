@@ -1,0 +1,10 @@
+# Ignorar entornos virtuales
+venv/
+gym-assistant-env/
+
+# Ignorar archivos compilados
+*.pyc
+__pycache__/
+
+# Ignorar otras carpetas
+vector_store/
