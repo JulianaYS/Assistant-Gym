@@ -1,11 +1,9 @@
+
 import streamlit as st
-
-
+from data.data_loader import load_config, initialize_vector_store
 
 # Configuración de la página
 st.set_page_config(page_title="Gym Assistant Bot", page_icon="🤖", layout="centered")
-
-
 
 # Agregar CSS personalizado (paleta suave y moderna)
 st.markdown(
@@ -65,7 +63,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
 # Logo y título
 st.markdown(
     '''
@@ -76,11 +73,34 @@ st.markdown(
     ''', unsafe_allow_html=True
 )
 
+# Cargar y procesar datos
+st.write("Cargando datos...")
+data = None
+try:
+    config = load_config()
+    data = config.get('data', [])
+    if data:
+        st.success("Datos cargados correctamente.")
+    else:
+        st.warning("No se encontraron datos en la configuración.")
+except Exception as e:
+    st.error(f"Error al cargar los datos: {e}")
+
+# Inicializar vector store si hay datos
+vector_store = None
+if data:
+    try:
+        st.write("Inicializando vector store...")
+        vector_store = initialize_vector_store(data)
+        st.success("Vector store inicializado correctamente.")
+    except Exception as e:
+        st.error(f"Error al inicializar el vector store: {e}")
+else:
+    st.error("No se puede inicializar el vector store sin datos válidos.")
 
 # Inicializar historial en la sesión
 if 'messages' not in st.session_state:
     st.session_state.messages = []
-
 
 # Mostrar mensajes
 st.markdown('<div class="chat-container">', unsafe_allow_html=True)
@@ -92,7 +112,6 @@ for msg in st.session_state.messages:
     else:
         st.markdown(f'<div class="chat-message bot-message"><b>Bot:</b> {content}</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
-
 
 # Input del usuario
 user_input = st.chat_input("Type your message...")
